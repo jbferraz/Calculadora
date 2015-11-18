@@ -35,8 +35,8 @@ public class CalcSimples extends JFrame implements ActionListener {
 
     public CalcSimples() {
         super("Calculadora Simples");
-        setBounds(100, 100, 400, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setBounds(150, 150, 250, 200);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         iniciaComponentes();
 
