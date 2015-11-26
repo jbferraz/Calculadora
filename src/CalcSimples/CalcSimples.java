@@ -6,18 +6,13 @@
 package CalcSimples;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -27,32 +22,16 @@ import javax.swing.JTextField;
 public class CalcSimples extends JFrame implements ActionListener {
 
     private JLabel labelValor1, labelValor2, labelOp, labelResultado;
-    private JButton calc, zerar;
+    private JButton calc, novoCalc;
     private JTextField valor1, valor2, resultado;
     private JComboBox op;
-
-    String[] operacoes = {"","Soma", "Subtração", "Multiplicação", "Divisão"};
 
     public CalcSimples() {
         super("Calculadora Simples");
         setBounds(150, 150, 250, 200);
         //setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         iniciaComponentes();
-
         setVisible(true);
-    }
-
-    public String getStringValor1() {
-        return (valor1.getText());
-    }
-
-    public String getStringValor2() {
-        return (valor2.getText());
-    }
-
-    public String getStringResultado() {
-        return (resultado.getText());
     }
 
     @Override
@@ -61,7 +40,7 @@ public class CalcSimples extends JFrame implements ActionListener {
     }
 
     private void iniciaComponentes() {
-        this.setLayout(new GridLayout(5, 2,10,10));
+        this.setLayout(new GridLayout(5, 2, 10, 10));
 
         labelValor1 = new JLabel("Valor 1: ");
         this.add(labelValor1, BorderLayout.NORTH);
@@ -75,7 +54,11 @@ public class CalcSimples extends JFrame implements ActionListener {
 
         labelOp = new JLabel("Operação: ");
         this.add(labelOp, BorderLayout.NORTH);
-        op = new JComboBox(operacoes);
+        op = new JComboBox();
+        op.addItem("Soma");
+        op.addItem("Subtração");
+        op.addItem("Multiplicação");
+        op.addItem("Divisão");
         this.add(op, BorderLayout.NORTH);
 
         labelResultado = new JLabel("Resultado: ");
@@ -86,24 +69,39 @@ public class CalcSimples extends JFrame implements ActionListener {
         calc = new JButton("Calcular");
         calc.addActionListener(new TrataBotoes());
         this.add(calc);
-        
-        zerar = new JButton("Zerar");
-        zerar.addActionListener(new TrataBotoes());
-        this.add(zerar);
+
+        novoCalc = new JButton("Novo Calculo");
+        novoCalc.addActionListener(new TrataBotoes());
+        this.add(novoCalc);
     }
 
     private class TrataBotoes implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() instanceof JButton) {
-                JButton botao = (JButton) e.getSource();
-                JOptionPane.showMessageDialog(CalcSimples.this,
-                        "teste");
+            Object fonte = e.getSource();
+            if (fonte == novoCalc) {
+                valor1.setText("");
+                valor2.setText("");
+                resultado.setText("");
+                op.setSelectedItem("Suma");
             }
+            if (fonte == calc) {
+                double numero1 = Double.parseDouble(valor1.getText());
+                double numero2 = Double.parseDouble(valor2.getText());
 
+                if (op.getSelectedItem() == "Soma") {
+                    resultado.setText("" + (numero1 + numero2));
+                }
+                if (op.getSelectedItem() == "Subtração") {
+                    resultado.setText("" + (numero1 - numero2));
+                }
+                if (op.getSelectedItem() == "Multiplicação") {
+                    resultado.setText("" + (numero1 * numero2));
+                }
+                if (op.getSelectedItem() == "Divisão") {
+                    resultado.setText("" + (numero1 / numero2));
+                }
+            }
         }
-
     }
-
 }
